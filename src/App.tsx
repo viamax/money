@@ -1,65 +1,62 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import "./App.css";
 import { Transaction } from "./model/transaction";
 import { SectionComponent } from "./components/section/sectionComponent";
+import {
+  BrowserRouter as Router,
+  Route,
+} from 'react-router-dom';
+import Navigation from "./components/pages/navigation/navigation";
+import {SignInPage} from "./components/pages/signin/signInPage";
 
-function App() {
-  const transction1: Transaction = {
-    name: "משכורת Kahun",
-    type: "paycheck",
-    value: 42000,
-    subTransactions: [],
-  };
+import * as ROUTES from './constants/routes';
+import SignUpPage from "./components/pages/signup/signUpPage";
 
-  const transction2: Transaction = {
-    name: "הכנסה בימוי",
-    type: "paycheck",
-    value: 10000,
-    subTransactions: [],
-  };
+import { createBrowserHistory } from 'history';
+import {withFirebase} from "./components/Firebase";
 
-  const transction4: Transaction = {
-    name: "תשלום אמא",
-    type: "paycheck",
-    value: 100,
-    subTransactions: [],
-  };
 
-  const transction5: Transaction = {
-    name: "החזר חבר",
-    type: "paycheck",
-    value: 500,
-    subTransactions: [],
-  };
+//region [[ Props ]]
 
-  const transction3: Transaction = {
-    name: "ביט",
-    type: "paycheck",
-    value: 600,
-    subTransactions: [transction4, transction5],
-  };
+export interface AppProps {
+    firebase: any;
+}
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <SectionComponent
-          title={"הכנסות"}
-          transactions={[transction1, transction2, transction3]}
-        />
+//endregion [[ Props ]]
 
-        <SectionComponent
-          title={"הוצאות"}
-          transactions={[transction1, transction2, transction3]}
-        />
+export const App = ({ ...props }: AppProps) => {
 
-        <SectionComponent
-          title={"סך הכל"}
-          transactions={[transction1, transction2, transction3]}
-        />
-      </header>
-    </div>
+    const [authUser, setAuthUser] = useState(null);
+
+    useEffect(() => {
+        props.firebase.auth.onAuthStateChanged(authUserResp => {
+            authUserResp
+                ? setAuthUser(authUserResp)
+                : setAuthUser(null)
+        });
+    });
+
+  return(
+      <Router history={createBrowserHistory()}>
+      <div>
+        <Navigation authUser={authUser}/>
+        <hr />
+
+        <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+          {/*<Route exact path={ROUTES.LANDING} component={LandingPage} />
+
+
+          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+          <Route path={ROUTES.HOME} component={HomePage} />
+          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+          <Route path={ROUTES.ADMIN} component={AdminPage} />*/}
+
+
+      </div>
+      </Router>
   );
 }
 
-export default App;
+export default withFirebase(App);
