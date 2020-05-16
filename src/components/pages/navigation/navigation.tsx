@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
+import { AuthUserContext } from '../../Session';
 
 //region [[ Styles ]]
 
@@ -37,12 +38,15 @@ const StyledToolbar = styled(Toolbar)({
 //region [[ Props ]]
 
 export interface NavigationProps {
-  authUser: any;
+    history: any;
 }
 
 export interface NavigationAuthProps {
   email: any;
+    history: any;
 }
+
+
 
 //endregion [[ Props ]]
 
@@ -62,11 +66,11 @@ const Navigation = ({ ...props }: NavigationProps) => {
             </MenuArea>
 
             <div>
-          {props.authUser ? (
-            <NavigationAuth email={props.authUser.email} />
-          ) : (
-            <NavigationNonAuth />
-          )}
+                <AuthUserContext.Consumer>
+                    {(authUser:any) =>
+                        authUser ? <NavigationAuth email={authUser.email} history={props.history}/> : <NavigationNonAuth />
+                    }
+                </AuthUserContext.Consumer>
             </div>
         </StyledToolbar>
       </AppBar>
@@ -90,21 +94,21 @@ const NavigationAuth = ({ ...props }: NavigationAuthProps) => {
         <Link to={ROUTES.ACCOUNT}>Account</Link>
       </MenuButton>
 
-        <SignOutButton />
+        <SignOutButton history={props.history} />
     </>
   );
 };
 
-const NavigationNonAuth = () => (
-  <>
-    <Button color="inherit">
-      <Link to={ROUTES.LANDING}>Landing</Link>
-    </Button>
+const NavigationNonAuth = () => {
+    return <>
+        <Button color="inherit">
+            <Link to={ROUTES.LANDING}>Landing</Link>
+        </Button>
 
-    <Button color="inherit">
-      <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-    </Button>
-  </>
-);
+        <Button color="inherit">
+            <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+        </Button>
+    </>
+};
 
 export default Navigation;

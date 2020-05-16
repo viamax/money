@@ -69,7 +69,7 @@ const SignUpFormBase = ({ ...props }: SignUpFormPageProps) => {
                 setEmail('');
                 setPasswordOne('');
                 setPasswordTwo('');
-                //props.history.push(ROUTES.HOME);
+                props.history.push(ROUTES.HOME);
             })
             .catch(error => {
                 setError(error );
