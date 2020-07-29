@@ -2,6 +2,7 @@ import * as React from "react";
 import { withStyles } from "@material-ui/core";
 import styled from "@material-ui/core/styles/styled";
 import { BankAccountTimeline } from "../bankAccount/bankAccountTimeline";
+import { MainToolbar } from "../../toolbars/mainToolbar";
 
 //region [[ Styles ]]
 
@@ -21,6 +22,8 @@ export interface HomePageProps {}
 export const HomePage = ({ ...props }: HomePageProps) => {
   return (
     <HomePageView>
+      <MainToolbar />
+
       <BankAccountTimeline />
     </HomePageView>
   );

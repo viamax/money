@@ -6,10 +6,6 @@ import styled from "@material-ui/core/styles/styled";
 import _ from "lodash";
 import { TransactionCategoryComponent } from "../transaction/transactionCategory";
 import { TransactionHelper } from "../../util/transactionHelper";
-import { ExpandSection } from "../common/transactionRow";
-import IconButton from "@material-ui/core/IconButton";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 
 //region [[ Styles ]]
 
@@ -30,6 +26,7 @@ export interface SectionComponentProps {
   secondaryColor: string;
   showLabel: boolean;
   months: number[];
+  expandable?: boolean;
   isBalance?: boolean;
 }
 
@@ -73,41 +70,19 @@ export const SectionComponent = ({ ...props }: SectionComponentProps) => {
 
   return (
     <SectionComponentView>
-      <ExpandSection>
-        {!expanded ? (
-          <IconButton
-            disabled={props.categories.length === 0}
-            style={{
-              opacity: 1,
-            }}
-            onClick={() => {
-              setExpanded(!expanded);
-            }}
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        ) : (
-          <IconButton
-            disabled={props.categories.length === 0}
-            style={{
-              opacity: 1,
-            }}
-            onClick={() => {
-              setExpanded(!expanded);
-            }}
-          >
-            <ExpandLessIcon />
-          </IconButton>
-        )}
-      </ExpandSection>
-
       <SectionTitle
         title={props.title}
         setSortType={setSortType}
         transactions={props.transactions}
         months={props.months}
         currentSort={currentSort}
+        onExpand={() => {
+          setExpanded(!expanded);
+        }}
+        expandable={props.expandable}
         total={total}
+        categories={props.categories}
+        expanded={expanded}
         isBalance={props.isBalance}
         color={props.primaryColor}
       />

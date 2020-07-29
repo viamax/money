@@ -19,6 +19,7 @@ import _ from "lodash";
 import { TransactionComponent } from "./transactionComponent";
 import { TransactionHelper } from "../../util/transactionHelper";
 import { ShekelSymbol } from "../common/shekelSymbol";
+import { MoneyUtil } from "../../util/MoneyUtil";
 
 //region [[ Styles ]]
 
@@ -158,8 +159,14 @@ export const TransactionCategoryComponent = ({
             dir="rtl"
             id="outlined-adornment-weight"
             onFocus={handleFocus}
-            value={TransactionHelper.sumTransactions(
-              TransactionHelper.getTransactionOfMonth(props.transactions, month)
+            readOnly
+            value={MoneyUtil.numberWithCommas(
+              TransactionHelper.sumTransactions(
+                TransactionHelper.getTransactionOfMonth(
+                  props.transactions,
+                  month
+                )
+              )
             )}
             style={{
               backgroundColor: props.color,
@@ -182,7 +189,7 @@ export const TransactionCategoryComponent = ({
               "aria-label": "weight",
               style: {
                 textAlign: "right",
-                width: "80px",
+
                 fontFamily: "'Varela Round', sans-serif",
                 fontSize: "20px",
                 fontWeight: 400,
@@ -202,21 +209,23 @@ export const TransactionCategoryComponent = ({
                 {props.months.map((month, index) => {
                   const uniquePerMonth = unique.filter(
                     (t) => (t.date as any).getMonth() === month
-                  )[0];
+                  );
 
                   return (
                     <>
                       <TransactionComponent
                         type={props.type}
-                        transaction={
-                          uniquePerMonth
+                        transactions={
+                          uniquePerMonth.length > 0
                             ? uniquePerMonth
-                            : {
-                                name: name,
-                                value: 0,
-                                type: "income",
-                                subTransactions: [],
-                              }
+                            : [
+                                {
+                                  name: name,
+                                  value: 0,
+                                  type: "income",
+                                  subTransactions: [],
+                                },
+                              ]
                         }
                         showLabel={index === 0 ? true : false}
                       />

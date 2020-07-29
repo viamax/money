@@ -2,9 +2,36 @@ import * as React from "react";
 import styled from "@material-ui/core/styles/styled";
 import { SectionComponent } from "../section/sectionComponent";
 import { Transaction } from "../../model/transaction";
+import { monthNames, TitleWidth } from "../common/transactionRow";
+import { IconButton } from "@material-ui/core";
 
 //region [[ Styles ]]
 const CashFlowView = styled((props) => <div {...props} />)({});
+
+const MonthTitle = styled((props) => <div {...props} />)({
+  color: "grey",
+
+  textAlign: "center",
+});
+
+const MonthName = styled((props) => <div {...props} />)({
+  color: "grey",
+  fontSize: "14px",
+  textAlign: "center",
+});
+
+const SingleMonthTitle = styled((props) => <div {...props} />)({
+  display: "flex",
+  justifyContent: "center",
+
+  flexDirection: "column",
+  width: TitleWidth + "px",
+});
+
+const MonthsContainers = styled((props) => <div {...props} />)({
+  display: "flex",
+  flexDirection: "row-reverse",
+});
 
 //endregion [[ Styles ]]
 
@@ -26,13 +53,22 @@ export interface MonthComponentProps {
 export const CashFlow = ({ ...props }: MonthComponentProps) => {
   return (
     <CashFlowView>
-      <span style={{ color: "black" }}>{props.month}</span>
-      <header className="App-header" style={{ justifyContent: "start" }}>
+      <header
+        className="App-header"
+        style={{ justifyContent: "start", alignItems: "end" }}
+      >
         {props.transactions.length > 0 && (
           <>
-            {props.months.map((month) => (
-              <span>{month}</span>
-            ))}
+            <MonthsContainers>
+              {props.months.map((month) => (
+                <SingleMonthTitle>
+                  <MonthName>{monthNames[month - 1]}</MonthName>
+                  <IconButton>
+                    <MonthTitle>{month}</MonthTitle>
+                  </IconButton>
+                </SingleMonthTitle>
+              ))}
+            </MonthsContainers>
 
             <SectionComponent
               title={"הכנסות"}
@@ -62,6 +98,7 @@ export const CashFlow = ({ ...props }: MonthComponentProps) => {
               transactions={props.transactions.filter(
                 (t) => t.debit || t.credit
               )}
+              expandable={false}
               showLabel={props.showLabel}
               months={props.months}
             />

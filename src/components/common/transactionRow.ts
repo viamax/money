@@ -1,5 +1,6 @@
 import styled from "@material-ui/core/styles/styled";
 import OutlinedInput from "@material-ui/core/OutlinedInput/OutlinedInput";
+import {Title} from "@material-ui/icons";
 
 
 export const ExpandSection = styled("div")({
@@ -7,6 +8,13 @@ export const ExpandSection = styled("div")({
     right: "-45px",
     position: "absolute",*/
 });
+
+export const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני",
+    "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"
+];
+
+export const TitleWidth = 250;
+export const TransactionWidth = 200;
 
 export const RowContainer = styled("div")({
     fontSize: "18px",
@@ -49,6 +57,13 @@ export const TransactionRow = styled(OutlinedInput)( {
             backgroundColor:"blue !important;",
         },
     },
+
+    '& .MuiOutlinedInput-adornedEnd': {
+        paddingRight: "0px !important"
+    },
+
+
+    width: TitleWidth+"px"
 });
 
 

@@ -12,6 +12,7 @@ import styled from "@material-ui/core/styles/styled";
 const Timeline = styled((props) => <div {...props} />)({
   display: "flex",
   justifyContent: "flex-end",
+  marginTop: "40px",
   marginRight: "40px",
 });
 
@@ -52,11 +53,13 @@ export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
           ExcelUtil.readFile(event, handleResult);
         }}
       />
-      <label htmlFor="raised-button-file">
-        <Button variant="contained" component="span">
-          Upload
-        </Button>
-      </label>
+      {transactions.length === 0 && (
+        <label htmlFor="raised-button-file">
+          <Button variant="contained" component="span">
+            Upload
+          </Button>
+        </label>
+      )}
 
       <Timeline>
         <CashFlow

@@ -56,7 +56,7 @@ const Navigation = ({ ...props }: NavigationProps) => {
     <NavigationView>
       <AppBar
         position="static"
-        style={{ backgroundColor: "white", color: "black" }}
+        style={{ backgroundColor: "white", color: "black", display: "none" }}
       >
         <StyledToolbar>
           <MenuArea>
