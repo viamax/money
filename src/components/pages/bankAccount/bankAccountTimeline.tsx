@@ -13,6 +13,7 @@ const Timeline = styled((props) => <div {...props} />)({
   display: "flex",
   justifyContent: "flex-end",
   marginTop: "40px",
+  width: "100%",
   marginRight: "40px",
 });
 
@@ -20,7 +21,10 @@ const Timeline = styled((props) => <div {...props} />)({
 
 //region [[ Props ]]
 
-export interface CashflowProps {}
+export interface CashflowProps {
+  timeframe: number;
+  startMonth: number;
+}
 
 //endregion [[ Props ]]
 
@@ -30,8 +34,19 @@ export interface CashflowProps {}
 export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
+  const [monthTimeframe, setMonthsTimeframe] = useState<number[]>([]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    let months: number[] = [];
+    for (
+      let i = props.startMonth;
+      i < props.timeframe + props.startMonth;
+      i++
+    ) {
+      months.push(i + 1);
+    }
+    setMonthsTimeframe(months);
+  }, [props.timeframe, props.startMonth]);
 
   const handleResult = (resp) => {
     const cats = _.uniq(
@@ -64,7 +79,7 @@ export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
       <Timeline>
         <CashFlow
           month={"מרץ"}
-          months={[1, 2, 3, 4]}
+          months={monthTimeframe}
           categories={categories}
           transactions={transactions}
           showLabel={true}

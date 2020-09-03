@@ -5,6 +5,10 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import { useEffect, useState } from "react";
+import IconButton from "@material-ui/core/IconButton";
 
 //region [[ Styles ]]
 
@@ -47,7 +51,12 @@ const LeftSection = styled("div")({
 
 //region [[ Props ]]
 
-export interface MainToolbarProps {}
+export interface MainToolbarProps {
+  onChangeTimeframe: (value) => void;
+  onChangeStartMonth: (value) => void;
+  timeframe: number;
+  startMonth: number;
+}
 
 //endregion [[ Props ]]
 
@@ -55,6 +64,16 @@ export interface MainToolbarProps {}
 //endregion [[ Functions ]]
 
 export const MainToolbar = ({ ...props }: MainToolbarProps) => {
+  const [startMonth, setStartMonth] = useState(props.startMonth);
+  const [timeframe, setTimeframe] = useState(props.timeframe);
+
+  useEffect(() => {}, [startMonth, timeframe]);
+
+  const onChangeTimeframe = (event) => {
+    setTimeframe(event.target.value);
+    props.onChangeTimeframe(event.target.value);
+  };
+
   return (
     <MainToolbarView>
       <RightSection>
@@ -65,11 +84,21 @@ export const MainToolbar = ({ ...props }: MainToolbarProps) => {
       </RightSection>
 
       <LeftSection>
+        <IconButton>
+          <ArrowBackIosIcon
+            onClick={() => {
+              if (props.startMonth + timeframe + 1 <= 12) {
+                props.onChangeStartMonth(props.startMonth + 1);
+              }
+            }}
+          />
+        </IconButton>
+
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={1}
-          onChange={() => {}}
+          value={timeframe}
+          onChange={onChangeTimeframe}
           label="Age"
         >
           <MenuItem aria-label="None" value="" />
@@ -79,6 +108,15 @@ export const MainToolbar = ({ ...props }: MainToolbarProps) => {
           <MenuItem value={6}>חצי שנה</MenuItem>
           <MenuItem value={12}>שנה</MenuItem>
         </Select>
+        <IconButton
+          onClick={() => {
+            if (props.startMonth - 1 >= 0) {
+              props.onChangeStartMonth(props.startMonth - 1);
+            }
+          }}
+        >
+          <ArrowForwardIosIcon />
+        </IconButton>
       </LeftSection>
     </MainToolbarView>
   );

@@ -213,6 +213,26 @@ export const TransactionCategoryComponent = ({
 
                   return (
                     <>
+                      {index === 0 && (
+                        <TransactionComponent
+                          type={props.type}
+                          transactions={
+                            uniquePerMonth.length > 0
+                              ? uniquePerMonth
+                              : [
+                                  {
+                                    name: name,
+                                    value: 0,
+                                    type: "income",
+                                    subTransactions: [],
+                                  },
+                                ]
+                          }
+                          showLabel={true}
+                          showValue={false}
+                        />
+                      )}
+
                       <TransactionComponent
                         type={props.type}
                         transactions={
@@ -227,7 +247,8 @@ export const TransactionCategoryComponent = ({
                                 },
                               ]
                         }
-                        showLabel={index === 0 ? true : false}
+                        showLabel={false}
+                        showValue={true}
                       />
                     </>
                   );

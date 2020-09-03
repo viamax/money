@@ -3,10 +3,13 @@ import { withStyles } from "@material-ui/core";
 import styled from "@material-ui/core/styles/styled";
 import { BankAccountTimeline } from "../bankAccount/bankAccountTimeline";
 import { MainToolbar } from "../../toolbars/mainToolbar";
+import { useState } from "react";
 
 //region [[ Styles ]]
 
-const HomePageView = styled((props) => <div {...props} />)({});
+const HomePageView = styled((props) => <div {...props} />)({
+  width: "100%",
+});
 
 //endregion [[ Styles ]]
 
@@ -20,11 +23,23 @@ export interface HomePageProps {}
 //endregion [[ Functions ]]
 
 export const HomePage = ({ ...props }: HomePageProps) => {
+  const [timeframe, setTimeframe] = useState(6);
+  const [startMonth, setStartMonth] = useState(0);
+
   return (
     <HomePageView>
-      <MainToolbar />
+      <MainToolbar
+        onChangeTimeframe={(value) => {
+          setTimeframe(value);
+        }}
+        onChangeStartMonth={(value) => {
+          setStartMonth(value);
+        }}
+        startMonth={startMonth}
+        timeframe={timeframe}
+      />
 
-      <BankAccountTimeline />
+      <BankAccountTimeline timeframe={timeframe} startMonth={startMonth} />
     </HomePageView>
   );
 };

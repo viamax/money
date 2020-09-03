@@ -11,7 +11,7 @@ import { TransactionHelper } from "../../util/transactionHelper";
 
 const SectionComponentView = styled("div")({
   marginBottom: "20px",
-
+  width: "100%",
   position: "relative",
 });
 //endregion [[ Styles ]]

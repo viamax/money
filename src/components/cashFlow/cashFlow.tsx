@@ -2,11 +2,18 @@ import * as React from "react";
 import styled from "@material-ui/core/styles/styled";
 import { SectionComponent } from "../section/sectionComponent";
 import { Transaction } from "../../model/transaction";
-import { monthNames, TitleWidth } from "../common/transactionRow";
+import {
+  monthNames,
+  TitleWidth,
+  TransactionWidth,
+} from "../common/transactionRow";
 import { IconButton } from "@material-ui/core";
+import { useEffect } from "react";
 
 //region [[ Styles ]]
-const CashFlowView = styled((props) => <div {...props} />)({});
+const CashFlowView = styled((props) => <div {...props} />)({
+  width: "100%",
+});
 
 const MonthTitle = styled((props) => <div {...props} />)({
   color: "grey",
@@ -23,13 +30,16 @@ const MonthName = styled((props) => <div {...props} />)({
 const SingleMonthTitle = styled((props) => <div {...props} />)({
   display: "flex",
   justifyContent: "center",
-
+  flex: 1,
   flexDirection: "column",
   width: TitleWidth + "px",
 });
 
 const MonthsContainers = styled((props) => <div {...props} />)({
   display: "flex",
+  width: "100%",
+  marginRight: TitleWidth + "px",
+  justifyContent: "flex-end",
   flexDirection: "row-reverse",
 });
 
@@ -51,6 +61,8 @@ export interface MonthComponentProps {
 //endregion [[ Functions ]]
 
 export const CashFlow = ({ ...props }: MonthComponentProps) => {
+  useEffect(() => {}, [props.months]);
+
   return (
     <CashFlowView>
       <header
@@ -60,6 +72,10 @@ export const CashFlow = ({ ...props }: MonthComponentProps) => {
         {props.transactions.length > 0 && (
           <>
             <MonthsContainers>
+              <SingleMonthTitle
+                style={{ width: TitleWidth + "px", flex: "none" }}
+              />
+
               {props.months.map((month) => (
                 <SingleMonthTitle>
                   <MonthName>{monthNames[month - 1]}</MonthName>

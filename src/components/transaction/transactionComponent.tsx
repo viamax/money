@@ -15,6 +15,7 @@ import _ from "lodash";
 
 const TransactionView = styled(Paper)({
   display: "flex",
+  flex: 1,
   flexDirection: "column",
 });
 
@@ -33,6 +34,7 @@ export interface TransactionProps {
   transactions: Transaction[];
   total?: boolean;
   showLabel: boolean;
+  showValue: boolean;
   type: string;
 }
 
@@ -110,7 +112,7 @@ export const TransactionComponent = ({ ...props }: TransactionProps) => {
             labelWidth={0}
           />
         )}
-        {!expanded && (
+        {!expanded && props.showValue === true && (
           <ValueInput
             dir="rtl"
             contentEditable={false}

@@ -67,6 +67,9 @@ export const TransactionRow = styled(OutlinedInput)( {
 });
 
 
-export const ValueInput = styled(TransactionRow)({});
+export const ValueInput = styled(TransactionRow)({
+    flex:1,
+    width:"auto"
+});
 
 export const LabelInput = styled(TransactionRow)({});
