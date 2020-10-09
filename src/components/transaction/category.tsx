@@ -8,22 +8,24 @@ import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import WorkIcon from "@material-ui/icons/Work";
-import { Transaction } from "../../model/transaction";
+
 import {
   ExpandSection,
   LabelInput,
   RowContainer,
+  TitleWidth,
   ValueInput,
 } from "../common/transactionRow";
 import _ from "lodash";
-import { TransactionComponent } from "./transactionComponent";
+import { TransactionCell } from "./transactionCell";
 import { TransactionHelper } from "../../util/transactionHelper";
 import { ShekelSymbol } from "../common/shekelSymbol";
 import { MoneyUtil } from "../../util/MoneyUtil";
+import { Transaction } from "../../model/transaction";
 
 //region [[ Styles ]]
 
-const TransactionCategoryView = styled(Paper)({
+const CategoryView = styled(Paper)({
   display: "flex",
   flexDirection: "column",
   marginBottom: "15px",
@@ -43,7 +45,7 @@ const TransactionRow = styled("div")({
 
 //region [[ Props ]]
 
-export interface TransactionCategoryProps {
+export interface CategoryProps {
   transactions: Transaction[];
   type: string;
   color: string;
@@ -57,9 +59,7 @@ export interface TransactionCategoryProps {
 //region [[ Functions ]]
 //endregion [[ Functions ]]
 
-export const TransactionCategoryComponent = ({
-  ...props
-}: TransactionCategoryProps) => {
+export const Category = ({ ...props }: CategoryProps) => {
   const [expanded, setExpanded] = useState(true);
   const [total, setTotal] = useState(props.total ? props.total : 0);
   const [folderName, setFolderName] = useState("");
@@ -89,7 +89,7 @@ export const TransactionCategoryComponent = ({
   };
 
   return (
-    <TransactionCategoryView>
+    <CategoryView>
       <RowContainer>
         {props.showLabel && (
           <LabelInput
@@ -214,7 +214,7 @@ export const TransactionCategoryComponent = ({
                   return (
                     <>
                       {index === 0 && (
-                        <TransactionComponent
+                        <TransactionCell
                           type={props.type}
                           transactions={
                             uniquePerMonth.length > 0
@@ -233,7 +233,7 @@ export const TransactionCategoryComponent = ({
                         />
                       )}
 
-                      <TransactionComponent
+                      <TransactionCell
                         type={props.type}
                         transactions={
                           uniquePerMonth.length > 0
@@ -257,6 +257,6 @@ export const TransactionCategoryComponent = ({
             );
           })}
       </ChildrenContainer>
-    </TransactionCategoryView>
+    </CategoryView>
   );
 };

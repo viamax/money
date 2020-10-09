@@ -23,7 +23,7 @@ export interface HomePageProps {}
 //endregion [[ Functions ]]
 
 export const HomePage = ({ ...props }: HomePageProps) => {
-  const [timeframe, setTimeframe] = useState(6);
+  const [timeframe, setTimeframe] = useState(3);
   const [startMonth, setStartMonth] = useState(0);
 
   return (

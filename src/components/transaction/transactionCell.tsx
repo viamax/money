@@ -13,7 +13,7 @@ import _ from "lodash";
 
 //region [[ Styles ]]
 
-const TransactionView = styled(Paper)({
+const TransactionCellView = styled(Paper)({
   display: "flex",
   flex: 1,
   flexDirection: "column",
@@ -30,7 +30,7 @@ const TransactionLabelInput = styled(LabelInput)({});
 
 //region [[ Props ]]
 
-export interface TransactionProps {
+export interface TransactionCellProps {
   transactions: Transaction[];
   total?: boolean;
   showLabel: boolean;
@@ -43,7 +43,7 @@ export interface TransactionProps {
 //region [[ Functions ]]
 //endregion [[ Functions ]]
 
-export const TransactionComponent = ({ ...props }: TransactionProps) => {
+export const TransactionCell = ({ ...props }: TransactionCellProps) => {
   const [transactionName, setTransactionName] = useState(
     props.transactions.length > 0 ? props.transactions[0].name : ""
   );
@@ -72,7 +72,7 @@ export const TransactionComponent = ({ ...props }: TransactionProps) => {
   const totalValue = 0;
 
   return (
-    <TransactionView>
+    <TransactionCellView>
       <RowContainer>
         {props.showLabel && (
           <TransactionLabelInput
@@ -149,6 +149,6 @@ export const TransactionComponent = ({ ...props }: TransactionProps) => {
           />
         )}
       </RowContainer>
-    </TransactionView>
+    </TransactionCellView>
   );
 };

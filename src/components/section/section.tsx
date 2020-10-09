@@ -4,12 +4,12 @@ import { SectionTitle } from "./sectionTitle";
 import { SortType, Transaction } from "../../model/transaction";
 import styled from "@material-ui/core/styles/styled";
 import _ from "lodash";
-import { TransactionCategoryComponent } from "../transaction/transactionCategory";
+import { Category } from "../transaction/category";
 import { TransactionHelper } from "../../util/transactionHelper";
 
 //region [[ Styles ]]
 
-const SectionComponentView = styled("div")({
+const SectionView = styled("div")({
   marginBottom: "20px",
   width: "100%",
   position: "relative",
@@ -35,7 +35,7 @@ export interface SectionComponentProps {
 //region [[ Functions ]]
 //endregion [[ Functions ]]
 
-export const SectionComponent = ({ ...props }: SectionComponentProps) => {
+export const Section = ({ ...props }: SectionComponentProps) => {
   const [transactions, setTransactions] = useState(props.transactions);
   const [currentSort, setCurrentSort] = useState(SortType.DESC);
   const [total, setTotal] = useState(0);
@@ -69,7 +69,7 @@ export const SectionComponent = ({ ...props }: SectionComponentProps) => {
   };
 
   return (
-    <SectionComponentView>
+    <SectionView>
       <SectionTitle
         title={props.title}
         setSortType={setSortType}
@@ -95,7 +95,7 @@ export const SectionComponent = ({ ...props }: SectionComponentProps) => {
           );
 
           return categoryTransactions.length > 0 ? (
-            <TransactionCategoryComponent
+            <Category
               months={props.months}
               transactions={categoryTransactions}
               color={props.secondaryColor}
@@ -106,6 +106,6 @@ export const SectionComponent = ({ ...props }: SectionComponentProps) => {
             <></>
           );
         })}
-    </SectionComponentView>
+    </SectionView>
   );
 };

@@ -4,3 +4,4 @@ yarn-error.log
 .awcache/*
 dist/
 .idea/
+build

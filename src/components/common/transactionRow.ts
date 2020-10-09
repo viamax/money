@@ -29,16 +29,7 @@ export const RowContainer = styled("div")({
     position: "relative",
 });
 
-export const CommonInputProps = {
-    "aria-label": "weight",
-    style: {
-    textAlign: "right",
-        width: "240px",
-        fontFamily: "'Varela Round', sans-serif",
-        fontSize: "20px",
-        fontWeight: 400,
-    },
-};
+
 
 export const TransactionRow = styled(OutlinedInput)( {
     '&:hover':{
@@ -69,7 +60,7 @@ export const TransactionRow = styled(OutlinedInput)( {
 
 export const ValueInput = styled(TransactionRow)({
     flex:1,
-    width:"auto"
+
 });
 
 export const LabelInput = styled(TransactionRow)({});

@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "@material-ui/core/styles/styled";
-import { SectionComponent } from "../section/sectionComponent";
+import { Section } from "../section/section";
 import { Transaction } from "../../model/transaction";
 import {
   monthNames,
@@ -86,7 +86,7 @@ export const CashFlow = ({ ...props }: MonthComponentProps) => {
               ))}
             </MonthsContainers>
 
-            <SectionComponent
+            <Section
               title={"הכנסות"}
               categories={props.categories}
               primaryColor={"turquoise"}
@@ -95,7 +95,7 @@ export const CashFlow = ({ ...props }: MonthComponentProps) => {
               showLabel={props.showLabel}
               months={props.months}
             />
-            <SectionComponent
+            <Section
               title={"הוצאות"}
               categories={props.categories}
               primaryColor={"#FF6666"}
@@ -105,7 +105,7 @@ export const CashFlow = ({ ...props }: MonthComponentProps) => {
               months={props.months}
             />
 
-            <SectionComponent
+            <Section
               title={"עובר ושב"}
               isBalance={true}
               categories={props.categories}
