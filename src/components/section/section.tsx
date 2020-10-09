@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { SectionTitle } from "./sectionTitle";
+import { SectionSumUp } from "./sectionSumUp";
 import { SortType, Transaction } from "../../model/transaction";
 import styled from "@material-ui/core/styles/styled";
 import _ from "lodash";
-import { Category } from "../transaction/category";
+import { Category } from "./category/category";
 import { TransactionHelper } from "../../util/transactionHelper";
 
 //region [[ Styles ]]
@@ -70,7 +70,7 @@ export const Section = ({ ...props }: SectionComponentProps) => {
 
   return (
     <SectionView>
-      <SectionTitle
+      <SectionSumUp
         title={props.title}
         setSortType={setSortType}
         transactions={props.transactions}
@@ -93,7 +93,6 @@ export const Section = ({ ...props }: SectionComponentProps) => {
             (transaction) =>
               TransactionHelper.getType(transaction.name) === category
           );
-
           return categoryTransactions.length > 0 ? (
             <Category
               months={props.months}

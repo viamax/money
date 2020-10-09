@@ -1,14 +1,10 @@
 import * as React from "react";
+import { useEffect } from "react";
 import styled from "@material-ui/core/styles/styled";
 import { Section } from "../section/section";
 import { Transaction } from "../../model/transaction";
-import {
-  monthNames,
-  TitleWidth,
-  TransactionWidth,
-} from "../common/transactionRow";
+import { monthNames, TitleWidth } from "../common/transactionRow";
 import { IconButton } from "@material-ui/core";
-import { useEffect } from "react";
 
 //region [[ Styles ]]
 const CashFlowView = styled((props) => <div {...props} />)({

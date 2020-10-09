@@ -1,6 +1,5 @@
 import styled from "@material-ui/core/styles/styled";
 import OutlinedInput from "@material-ui/core/OutlinedInput/OutlinedInput";
-import {Title} from "@material-ui/icons";
 
 
 export const ExpandSection = styled("div")({

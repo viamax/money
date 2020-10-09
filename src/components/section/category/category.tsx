@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "@material-ui/core/styles/styled";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import Paper from "@material-ui/core/Paper";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import IconButton from "@material-ui/core/IconButton";
@@ -13,15 +12,15 @@ import {
   ExpandSection,
   LabelInput,
   RowContainer,
-  TitleWidth,
   ValueInput,
-} from "../common/transactionRow";
+} from "../../common/transactionRow";
 import _ from "lodash";
-import { TransactionCell } from "./transactionCell";
-import { TransactionHelper } from "../../util/transactionHelper";
-import { ShekelSymbol } from "../common/shekelSymbol";
-import { MoneyUtil } from "../../util/MoneyUtil";
-import { Transaction } from "../../model/transaction";
+import { TransactionCell } from "./transaction/transactionCell";
+import { TransactionHelper } from "../../../util/transactionHelper";
+import { ShekelSymbol } from "../../common/shekelSymbol";
+import { MoneyUtil } from "../../../util/MoneyUtil";
+import { Transaction } from "../../../model/transaction";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 //region [[ Styles ]]
 
@@ -40,6 +39,41 @@ const TransactionRow = styled("div")({
   display: "flex",
   flexDirection: "row-reverse",
 });
+
+export const CategoryLabel = styled(LabelInput)(
+  ({ backgroundColor }: { backgroundColor: string }) => ({
+    backgroundColor: backgroundColor,
+    textAlign: "right",
+
+    borderRadius: 0,
+    borderLeft: "1px solid white",
+  })
+);
+
+export const CategoryCell = styled(ValueInput)(
+  ({ backgroundColor }: { backgroundColor: string }) => ({
+    backgroundColor: backgroundColor,
+    borderRadius: 0,
+    fontWeight: 500,
+    borderLeft: "1px solid white",
+  })
+);
+
+const useStyles = makeStyles(() => ({
+  input: {
+    textAlign: "right",
+    width: "240px",
+    fontFamily: "'Varela Round', sans-serif",
+    fontSize: "20px",
+    fontWeight: 400,
+  },
+  input2: {
+    textAlign: "right",
+    fontFamily: "'Varela Round', sans-serif",
+    fontSize: "20px",
+    fontWeight: 400,
+  },
+}));
 
 //endregion [[ Styles ]]
 
@@ -62,9 +96,9 @@ export interface CategoryProps {
 export const Category = ({ ...props }: CategoryProps) => {
   const [expanded, setExpanded] = useState(true);
   const [total, setTotal] = useState(props.total ? props.total : 0);
-  const [folderName, setFolderName] = useState("");
 
   const [uniqueTransactions, setUniqueTransactions] = useState<string[]>([]);
+  const classes = useStyles();
 
   useEffect(() => {
     if (!props.total) {
@@ -88,114 +122,77 @@ export const Category = ({ ...props }: CategoryProps) => {
     event.target.select();
   };
 
+  const getCategorySum = (month) => {
+    return MoneyUtil.numberWithCommas(
+      TransactionHelper.sumTransactions(
+        TransactionHelper.getTransactionOfMonth(props.transactions, month)
+      )
+    );
+  };
+
+  const getCategoryIcon = () => {
+    return (
+      <IconButton style={{ opacity: total ? 0 : 1, minWidth: "40px" }}>
+        {props.type === "income" ? <WorkIcon /> : <CreditCardIcon />}
+      </IconButton>
+    );
+  };
+
+  const getExpandIcon = () => {
+    return (
+      <ExpandSection>
+        {!expanded ? (
+          <IconButton
+            disabled={props.transactions.length === 0}
+            style={{
+              opacity: props.transactions.length > 0 ? 1 : 0,
+            }}
+            onClick={() => {
+              setExpanded(!expanded);
+            }}
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        ) : (
+          <IconButton
+            disabled={props.transactions.length === 0}
+            style={{
+              opacity: props.transactions.length > 0 ? 1 : 0,
+            }}
+            onClick={() => {
+              setExpanded(!expanded);
+            }}
+          >
+            <ExpandLessIcon />
+          </IconButton>
+        )}
+      </ExpandSection>
+    );
+  };
+
   return (
     <CategoryView>
       <RowContainer>
         {props.showLabel && (
-          <LabelInput
+          <CategoryLabel
             dir="rtl"
-            id="outlined-adornment-weight"
             value={props.type}
-            startAdornment={
-              <IconButton style={{ opacity: total ? 0 : 1, minWidth: "40px" }}>
-                {props.type === "income" ? <WorkIcon /> : <CreditCardIcon />}
-              </IconButton>
-            }
+            startAdornment={getCategoryIcon()}
             onFocus={handleFocus}
-            endAdornment={
-              <ExpandSection>
-                {!expanded ? (
-                  <IconButton
-                    disabled={props.transactions.length === 0}
-                    style={{
-                      opacity: props.transactions.length > 0 ? 1 : 0,
-                    }}
-                    onClick={() => {
-                      setExpanded(!expanded);
-                    }}
-                  >
-                    <ExpandMoreIcon />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    disabled={props.transactions.length === 0}
-                    style={{
-                      opacity: props.transactions.length > 0 ? 1 : 0,
-                    }}
-                    onClick={() => {
-                      setExpanded(!expanded);
-                    }}
-                  >
-                    <ExpandLessIcon />
-                  </IconButton>
-                )}
-              </ExpandSection>
-            }
-            style={{
-              textAlign: "right",
-              backgroundColor: props.color,
-              borderRadius: 0,
-              borderLeft: "1px solid white",
-            }}
-            onChange={(event) => {
-              setFolderName(event.target.value);
-            }}
-            aria-describedby="outlined-weight-helper-text"
-            inputProps={{
-              "aria-label": "weight",
-              style: {
-                textAlign: "right",
-                width: "240px",
-                fontFamily: "'Varela Round', sans-serif",
-                fontSize: "20px",
-                fontWeight: 400,
-              },
-            }}
-            labelWidth={0}
+            endAdornment={getExpandIcon()}
+            backgroundColor={props.color}
+            inputProps={{ className: classes.input }}
           />
         )}
         {props.months.map((month) => (
-          <ValueInput
+          <CategoryCell
             dir="rtl"
-            id="outlined-adornment-weight"
             onFocus={handleFocus}
             readOnly
-            value={MoneyUtil.numberWithCommas(
-              TransactionHelper.sumTransactions(
-                TransactionHelper.getTransactionOfMonth(
-                  props.transactions,
-                  month
-                )
-              )
-            )}
-            style={{
-              backgroundColor: props.color,
-              borderRadius: 0,
-              fontWeight: 500,
-              borderLeft: "1px solid white",
-            }}
-            startAdornment={
-              <ShekelSymbol
-                value={TransactionHelper.sumTransactions(
-                  TransactionHelper.getTransactionOfMonth(
-                    props.transactions,
-                    month
-                  )
-                )}
-              />
-            }
-            aria-describedby="outlined-weight-helper-text"
-            inputProps={{
-              "aria-label": "weight",
-              style: {
-                textAlign: "right",
-
-                fontFamily: "'Varela Round', sans-serif",
-                fontSize: "20px",
-                fontWeight: 400,
-              },
-            }}
-            labelWidth={0}
+            value={getCategorySum(month)}
+            backgroundColor={props.color}
+            startAdornment={<ShekelSymbol value={getCategorySum(month)} />}
+            inputProps={{ className: classes.input2 }}
           />
         ))}
       </RowContainer>

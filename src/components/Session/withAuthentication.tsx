@@ -1,46 +1,44 @@
-import React from 'react';
+import React from "react";
 
-import AuthUserContext from './context';
-import { withFirebase } from '../Firebase';
+import AuthUserContext from "./context";
+import { withFirebase } from "../Firebase";
 
-const withAuthentication = Component => {
-    class WithAuthentication extends React.Component {
+const withAuthentication = (Component) => {
+  class WithAuthentication extends React.Component {
+    private listener;
 
-        private listener;
+    constructor(props) {
+      super(props);
 
-
-        constructor(props) {
-            super(props);
-
-            this.state = {
-                authUser: null,
-            };
-        }
-
-        componentDidMount() {
-            this.listener = (this.props as any).firebase.auth.onAuthStateChanged(
-                authUser => {
-                    authUser
-                        ? this.setState({ authUser })
-                        : this.setState({ authUser: null });
-                },
-            );
-        }
-
-        componentWillUnmount() {
-            this.listener();
-        }
-
-        render() {
-            return (
-                <AuthUserContext.Provider value={(this.state as any).authUser}>
-                    <Component {...this.props} />
-                </AuthUserContext.Provider>
-            );
-        }
+      this.state = {
+        authUser: null,
+      };
     }
 
-    return withFirebase(WithAuthentication);
+    componentDidMount() {
+      this.listener = (this.props as any).firebase.auth.onAuthStateChanged(
+        (authUser) => {
+          authUser
+            ? this.setState({ authUser })
+            : this.setState({ authUser: null });
+        }
+      );
+    }
+
+    componentWillUnmount() {
+      this.listener();
+    }
+
+    render() {
+      return (
+        <AuthUserContext.Provider value={(this.state as any).authUser}>
+          <Component {...this.props} />
+        </AuthUserContext.Provider>
+      );
+    }
+  }
+
+  return withFirebase(WithAuthentication);
 };
 
 export default withAuthentication;

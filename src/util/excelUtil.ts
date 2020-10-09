@@ -1,6 +1,6 @@
 
 import * as XLSX from 'xlsx';
-import {Transaction, TransactionOld} from '../model/transaction';
+import {Transaction} from '../model/transaction';
 
 export class ExcelUtil {
     static readFile(event: any, callback: Function ){
@@ -84,8 +84,8 @@ export class ExcelUtil {
 
                 const transactionName =  data[i][1];
                 const transactionId = data[i][2];
-                const transactionDebit = data[i][3] == undefined ? undefined : data[i][3].replace(',', '');
-                const transactionCredit  = data[i][4] == undefined ? undefined : data[i][4].replace(',', '');
+                const transactionDebit = data[i][3] === undefined ? undefined : data[i][3].replace(',', '');
+                const transactionCredit  = data[i][4] === undefined ? undefined : data[i][4].replace(',', '');
                 const transactionBalance =  data[i][5];
                 //newTransaction.AccountBalance = data[i][6].replace(',', '');
                 (transactions as any).push({
