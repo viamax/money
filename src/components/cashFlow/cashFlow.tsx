@@ -34,6 +34,7 @@ const SingleMonthTitle = styled((props) => <div {...props} />)({
 const MonthsContainers = styled((props) => <div {...props} />)({
   display: "flex",
   width: "100%",
+  marginTop: "15px",
   marginRight: TitleWidth + "px",
   justifyContent: "flex-end",
   flexDirection: "row-reverse",
@@ -74,9 +75,9 @@ export const CashFlow = ({ ...props }: MonthComponentProps) => {
 
               {props.months.map((month) => (
                 <SingleMonthTitle>
-                  <MonthName>{monthNames[month - 1]}</MonthName>
+                  <MonthName>{month}</MonthName>
                   <IconButton>
-                    <MonthTitle>{month}</MonthTitle>
+                    <MonthTitle>{monthNames[month - 1]}</MonthTitle>
                   </IconButton>
                 </SingleMonthTitle>
               ))}
@@ -85,8 +86,8 @@ export const CashFlow = ({ ...props }: MonthComponentProps) => {
             <Section
               title={"הכנסות"}
               categories={props.categories}
-              primaryColor={"turquoise"}
-              secondaryColor={"aquamarine"}
+              primaryColor={"#3a7ab9"}
+              secondaryColor={"#b1c9f2"}
               transactions={props.transactions.filter((t) => t.credit)}
               showLabel={props.showLabel}
               months={props.months}
@@ -95,14 +96,14 @@ export const CashFlow = ({ ...props }: MonthComponentProps) => {
               title={"הוצאות"}
               categories={props.categories}
               primaryColor={"#FF6666"}
-              secondaryColor={"#FF9999"}
+              secondaryColor={"#ecc2bd"}
               transactions={props.transactions.filter((t) => t.debit)}
               showLabel={props.showLabel}
               months={props.months}
             />
 
             <Section
-              title={"עובר ושב"}
+              title={"יתרה סוף חודש"}
               isBalance={true}
               categories={props.categories}
               primaryColor={"#3399FF"}

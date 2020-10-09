@@ -28,7 +28,7 @@ const SectionTitleView = styled(Paper)({
   alignItems: "center",
   display: "flex",
   position: "relative",
-  marginBottom: "15px",
+
   flexDirection: "row-reverse",
 });
 
@@ -36,7 +36,7 @@ export const SectionLabel = styled(LabelInput)(
   ({ backgroundColor }: { backgroundColor: string }) => ({
     textAlign: "right",
     borderRadius: 0,
-    borderLeft: "1px solid white",
+
     color: "white",
     backgroundColor: backgroundColor,
   })
@@ -45,7 +45,7 @@ export const SectionLabel = styled(LabelInput)(
 export const SectionSumValue = styled(ValueInput)(
   ({ backgroundColor }: { backgroundColor: string }) => ({
     borderRadius: 0,
-    borderLeft: "1px solid white",
+
     color: "white",
     backgroundColor: backgroundColor,
   })
@@ -159,7 +159,7 @@ export const SectionSumUp = ({ ...props }: SectionTitleProps) => {
           backgroundColor={props.color}
           dir="rtl"
           value={getValue(month)}
-          startAdornment={<ShekelSymbol value={1} />}
+          startAdornment={<ShekelSymbol value={getValue(month)} />}
           inputProps={{ className: classes.input }}
         />
       ))}

@@ -1,6 +1,5 @@
-import * as XLSX from "xlsx";
 import _ from "lodash";
-import { Transaction, TransactionOld } from "../model/transaction";
+import { Transaction } from "../model/transaction";
 import React from "react";
 import { moneyIcons } from "./Icons";
 
@@ -46,6 +45,10 @@ export class TransactionHelper {
       transactionName === "מסלול בסיסי"
     ) {
       return "עמלות";
+    }
+
+    if (transactionName === "רבית זכות") {
+      return "זיכויים";
     }
 
     return "אחר";

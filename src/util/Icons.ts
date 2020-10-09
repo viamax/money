@@ -12,6 +12,10 @@ export const moneyIcons = {
         iconCode: '"\f481"',
         iconName: "far fa-money-bill-alt",
     },
+    "זיכויים": {
+        iconCode: '"\f481"',
+        iconName: "far fa-money-bill-alt",
+    },
     "כרטיסי אשראי": {
         iconCode: '"\f21e"',
         iconName: "far fa-credit-card",

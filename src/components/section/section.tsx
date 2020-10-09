@@ -73,7 +73,7 @@ export const Section = ({ ...props }: SectionComponentProps) => {
       <SectionSumUp
         title={props.title}
         setSortType={setSortType}
-        transactions={props.transactions}
+        transactions={[]}
         months={props.months}
         currentSort={currentSort}
         onExpand={() => {
@@ -105,6 +105,23 @@ export const Section = ({ ...props }: SectionComponentProps) => {
             <></>
           );
         })}
+
+      <SectionSumUp
+        title={"סך הכל"}
+        setSortType={setSortType}
+        transactions={props.transactions}
+        months={props.months}
+        currentSort={currentSort}
+        onExpand={() => {
+          setExpanded(!expanded);
+        }}
+        expandable={props.expandable}
+        total={total}
+        categories={props.categories}
+        expanded={expanded}
+        isBalance={props.isBalance}
+        color={props.primaryColor}
+      />
     </SectionView>
   );
 };

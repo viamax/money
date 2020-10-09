@@ -27,7 +27,6 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 const CategoryView = styled(Paper)({
   display: "flex",
   flexDirection: "column",
-  marginBottom: "15px",
 });
 
 const ChildrenContainer = styled("div")({
@@ -46,7 +45,6 @@ export const CategoryLabel = styled(LabelInput)(
     textAlign: "right",
 
     borderRadius: 0,
-    borderLeft: "1px solid white",
   })
 );
 
@@ -55,7 +53,6 @@ export const CategoryCell = styled(ValueInput)(
     backgroundColor: backgroundColor,
     borderRadius: 0,
     fontWeight: 500,
-    borderLeft: "1px solid white",
   })
 );
 
@@ -94,7 +91,7 @@ export interface CategoryProps {
 //endregion [[ Functions ]]
 
 export const Category = ({ ...props }: CategoryProps) => {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [total, setTotal] = useState(props.total ? props.total : 0);
 
   const [uniqueTransactions, setUniqueTransactions] = useState<string[]>([]);
@@ -132,8 +129,8 @@ export const Category = ({ ...props }: CategoryProps) => {
 
   const getCategoryIcon = () => {
     return (
-      <IconButton style={{ opacity: total ? 0 : 1, minWidth: "40px" }}>
-        {props.type === "income" ? <WorkIcon /> : <CreditCardIcon />}
+      <IconButton style={{ opacity: props.total ? 0 : 0.5 }}>
+        <i className={TransactionHelper.getIcon(props.type).iconName}></i>
       </IconButton>
     );
   };

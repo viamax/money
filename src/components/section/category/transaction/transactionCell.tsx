@@ -17,11 +17,13 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 //region [[ Styles ]]
 
-const TransactionCellView = styled(Paper)({
-  display: "flex",
-  flex: 1,
-  flexDirection: "column",
-});
+const TransactionCellView = styled(Paper)(
+  ({ isLabel }: { isLabel: boolean }) => ({
+    display: "flex",
+    flexDirection: "column",
+    flex: isLabel ? "none" : 1,
+  })
+);
 
 export const TransactionLabel = styled(LabelInput)(
   ({ backgroundColor }: { backgroundColor: string }) => ({
@@ -29,7 +31,6 @@ export const TransactionLabel = styled(LabelInput)(
     textAlign: "right",
     borderRadius: 0,
     height: "45px",
-    borderLeft: "1px solid white",
   })
 );
 
@@ -121,7 +122,7 @@ export const TransactionCell = ({ ...props }: TransactionCellProps) => {
   const totalValue = 0;
 
   return (
-    <TransactionCellView>
+    <TransactionCellView isLabel={props.showLabel}>
       <RowContainer>
         {props.showLabel && (
           <TransactionLabel

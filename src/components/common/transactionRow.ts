@@ -20,7 +20,7 @@ export const RowContainer = styled("div")({
     fontWeight: 400,
     borderRadius: 0,
     borderTop: "1px solid white",
-    borderLeft: "1px solid white",
+
     fontFamily: "'Assistant', sans-serif",
 
     display: "flex",
@@ -51,9 +51,9 @@ export const TransactionRow = styled(OutlinedInput)( {
     '& .MuiOutlinedInput-adornedEnd': {
         paddingRight: "0px !important"
     },
+    borderLeft: "1px solid white",
 
 
-    width: TitleWidth+"px"
 });
 
 
@@ -62,4 +62,6 @@ export const ValueInput = styled(TransactionRow)({
 
 });
 
-export const LabelInput = styled(TransactionRow)({});
+export const LabelInput = styled(TransactionRow)({
+    width: TitleWidth+"px"
+});

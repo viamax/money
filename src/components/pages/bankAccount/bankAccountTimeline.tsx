@@ -7,14 +7,12 @@ import _ from "lodash";
 import { TransactionHelper } from "../../../util/transactionHelper";
 import { CashFlow } from "../../cashFlow/cashFlow";
 import styled from "@material-ui/core/styles/styled";
+import { SelectCategoryDialog } from "../../dialog/selectCategoryDialog";
 
 //region [[ Styles ]]
 const Timeline = styled((props) => <div {...props} />)({
   display: "flex",
-  justifyContent: "flex-end",
-  marginTop: "40px",
-  width: "100%",
-  marginRight: "40px",
+  justifyContent: "center",
 });
 
 //endregion [[ Styles ]]
@@ -36,6 +34,10 @@ export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
   const [categories, setCategories] = useState<string[]>([]);
   const [monthTimeframe, setMonthsTimeframe] = useState<number[]>([]);
 
+  const [selectCategoryDialogOpen, setSelectCategoryDialogOpen] = useState<
+    boolean
+  >(false);
+
   useEffect(() => {
     let months: number[] = [];
     for (
@@ -52,6 +54,8 @@ export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
     const cats = _.uniq(
       resp.map((transaction) => TransactionHelper.getType(transaction.name))
     );
+
+    setSelectCategoryDialogOpen(true);
     setCategories(cats);
     setTransactions(resp);
   };
@@ -75,6 +79,11 @@ export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
           </Button>
         </label>
       )}
+
+      <SelectCategoryDialog
+        open={selectCategoryDialogOpen}
+        transactions={transactions}
+      />
 
       <Timeline>
         <CashFlow
