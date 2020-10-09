@@ -1,65 +1,44 @@
 import React from "react";
-
 import "./App.css";
-import { Transaction } from "./model/transaction";
-import { SectionComponent } from "./components/section/sectionComponent";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Navigation from "./components/pages/navigation/navigation";
+import { SignInPage } from "./components/pages/signin/signInPage";
+import * as ROUTES from "./constants/routes";
+import SignUpPage from "./components/pages/signup/signUpPage";
+import { createBrowserHistory } from "history";
+import { withAuthentication } from "./components/Session";
+import { HomePage } from "./components/pages/homePage/homePage";
 
-function App() {
-  const transction1: Transaction = {
-    name: "משכורת Kahun",
-    type: "paycheck",
-    value: 42000,
-    subTransactions: [],
-  };
+//region [[ Props ]]
 
-  const transction2: Transaction = {
-    name: "הכנסה בימוי",
-    type: "paycheck",
-    value: 10000,
-    subTransactions: [],
-  };
+export interface AppProps {}
 
-  const transction4: Transaction = {
-    name: "תשלום אמא",
-    type: "paycheck",
-    value: 100,
-    subTransactions: [],
-  };
+//endregion [[ Props ]]
 
-  const transction5: Transaction = {
-    name: "החזר חבר",
-    type: "paycheck",
-    value: 500,
-    subTransactions: [],
-  };
+const historyGlobal = createBrowserHistory({ forceRefresh: true });
 
-  const transction3: Transaction = {
-    name: "ביט",
-    type: "paycheck",
-    value: 600,
-    subTransactions: [transction4, transction5],
-  };
-
+export const App = ({ ...props }: AppProps) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <SectionComponent
-          title={"הכנסות"}
-          transactions={[transction1, transction2, transction3]}
-        />
+    <>
+      <Router history={historyGlobal}>
+        <div>
+          <Navigation history={historyGlobal} />
 
-        <SectionComponent
-          title={"הוצאות"}
-          transactions={[transction1, transction2, transction3]}
-        />
+          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+          <Route path={"/"} component={HomePage} />
 
-        <SectionComponent
-          title={"סך הכל"}
-          transactions={[transction1, transction2, transction3]}
-        />
-      </header>
-    </div>
+          {/*
+
+
+          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+
+          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+          <Route path={ROUTES.ADMIN} component={AdminPage} />*/}
+        </div>
+      </Router>
+    </>
   );
-}
+};
 
-export default App;
+export default withAuthentication(App);
