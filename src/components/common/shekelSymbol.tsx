@@ -31,7 +31,7 @@ export const ShekelSymbol = ({ ...props }: ShekelSymbolProps) => {
           minWidth: "20px",
           marginRight: "12px",
           marginLeft: "0",
-          opacity: props.value === 0 ? 0 : 0.5,
+          opacity: props.value === 0 || !props.value ? 0 : 0.5,
         }}
         position="end"
       >

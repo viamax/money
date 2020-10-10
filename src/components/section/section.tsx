@@ -73,7 +73,7 @@ export const Section = ({ ...props }: SectionComponentProps) => {
       <SectionSumUp
         title={props.title}
         setSortType={setSortType}
-        transactions={[]}
+        transactions={!expanded ? props.transactions : []}
         months={props.months}
         currentSort={currentSort}
         onExpand={() => {
@@ -93,6 +93,7 @@ export const Section = ({ ...props }: SectionComponentProps) => {
             (transaction) =>
               TransactionHelper.getType(transaction.name) === category
           );
+
           return categoryTransactions.length > 0 ? (
             <Category
               months={props.months}
@@ -106,22 +107,24 @@ export const Section = ({ ...props }: SectionComponentProps) => {
           );
         })}
 
-      <SectionSumUp
-        title={"סך הכל"}
-        setSortType={setSortType}
-        transactions={props.transactions}
-        months={props.months}
-        currentSort={currentSort}
-        onExpand={() => {
-          setExpanded(!expanded);
-        }}
-        expandable={props.expandable}
-        total={total}
-        categories={props.categories}
-        expanded={expanded}
-        isBalance={props.isBalance}
-        color={props.primaryColor}
-      />
+      {expanded && (
+        <SectionSumUp
+          title={"סך הכל"}
+          setSortType={setSortType}
+          transactions={props.transactions}
+          months={props.months}
+          currentSort={currentSort}
+          onExpand={() => {
+            setExpanded(!expanded);
+          }}
+          expandable={props.expandable}
+          total={total}
+          categories={props.categories}
+          expanded={expanded}
+          isBalance={props.isBalance}
+          color={props.primaryColor}
+        />
+      )}
     </SectionView>
   );
 };

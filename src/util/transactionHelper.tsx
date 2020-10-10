@@ -7,8 +7,7 @@ export class TransactionHelper {
   public static getType(transactionName: string) {
     if (
       transactionName === "מב. הפועלים-י" ||
-      transactionName === "   " ||
-      transactionName === "   "
+      (transactionName && transactionName.indexOf("שיק") !== -1)
     ) {
       return "העברות";
     }
@@ -16,9 +15,18 @@ export class TransactionHelper {
     if (
       transactionName === "הע. אינטרנט700" ||
       transactionName === "העברה עצמית700" ||
-      transactionName === "   "
+      (transactionName && transactionName.indexOf("הע. אינט") !== -1)
     ) {
       return "העברות";
+    }
+
+    if (
+      (transactionName && transactionName.indexOf("מגדל") !== -1) ||
+      (transactionName && transactionName.indexOf("מנורה") !== -1) ||
+      (transactionName && transactionName.indexOf("פניקס") !== -1) ||
+      (transactionName && transactionName.indexOf("מכבי") !== -1)
+    ) {
+      return "ביטוחים";
     }
 
     if (
@@ -35,13 +43,19 @@ export class TransactionHelper {
     if (
       transactionName === "לאומי ויזה י" ||
       transactionName === "ל.מסטרקארדי" ||
-      transactionName === "   "
+      (transactionName && transactionName.indexOf("לאומי קארד") !== -1) ||
+      (transactionName && transactionName.indexOf("אמריקן אקספר") !== -1) ||
+      (transactionName && transactionName.indexOf("כרטיסי אשראי") !== -1) ||
+      (transactionName && transactionName.indexOf("דיינרס") !== -1) ||
+      (transactionName && transactionName.indexOf("מקס איט") !== -1)
     ) {
       return "כרטיסי אשראי";
     }
 
     if (
       (transactionName && transactionName.indexOf("עמל.ערוץ") != -1) ||
+      (transactionName && transactionName.indexOf("עמ.הקצאת אשראי") != -1) ||
+      (transactionName && transactionName.indexOf("מסלול מורחב") != -1) ||
       transactionName === "מסלול בסיסי"
     ) {
       return "עמלות";
@@ -74,6 +88,25 @@ export class TransactionHelper {
     } else {
       return null;
     }
+  }
+
+  public static getTransactionsByTimeframe(
+    transactions: Transaction[],
+    startMonth: number,
+    timeframe: number
+  ) {
+    const filterTransactions =
+      transactions.length > 0
+        ? transactions.filter((t) => {
+            console.log("t:" + t.date);
+            return (
+              t.date !== null &&
+              (t.date as any).getMonth() > startMonth &&
+              (t.date as any).getMonth() <= timeframe + startMonth
+            );
+          })
+        : [];
+    return filterTransactions;
   }
 
   public static sumTransactions(transactions: Transaction[]) {

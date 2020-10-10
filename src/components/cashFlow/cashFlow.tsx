@@ -20,6 +20,7 @@ const MonthTitle = styled((props) => <div {...props} />)({
 const MonthName = styled((props) => <div {...props} />)({
   color: "grey",
   fontSize: "14px",
+  fontFamily: "'Varela Round', sans-serif",
   textAlign: "center",
 });
 
@@ -27,6 +28,7 @@ const SingleMonthTitle = styled((props) => <div {...props} />)({
   display: "flex",
   justifyContent: "center",
   flex: 1,
+  fontFamily: "'Varela Round', sans-serif",
   flexDirection: "column",
   width: TitleWidth + "px",
 });

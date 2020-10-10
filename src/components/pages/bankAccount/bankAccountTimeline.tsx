@@ -59,6 +59,13 @@ export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
     setCategories(cats);
     setTransactions(resp);
   };
+  console.log("Gg");
+
+  const filterTransactions = TransactionHelper.getTransactionsByTimeframe(
+    transactions,
+    props.startMonth,
+    props.timeframe
+  );
 
   return (
     <div className="App">
@@ -90,7 +97,7 @@ export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
           month={"מרץ"}
           months={monthTimeframe}
           categories={categories}
-          transactions={transactions}
+          transactions={filterTransactions}
           showLabel={true}
         />
       </Timeline>
