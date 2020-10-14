@@ -8,13 +8,17 @@ export const moneyIcons = {
         iconCode: '"\f492"',
         iconName: "fas fa-angle-double-left",
     },
-    "מזומן": {
+    "כספומט": {
         iconCode: '"\f481"',
         iconName: "far fa-money-bill-alt",
     },
     "זיכויים": {
         iconCode: '"\f481"',
         iconName: "far fa-money-bill-alt",
+    },
+    "משכורת": {
+        iconCode: '"\f481"',
+        iconName: "fas fa-suitcase",
     },
     "ביטוחים": {
         iconCode: '"\f481"',

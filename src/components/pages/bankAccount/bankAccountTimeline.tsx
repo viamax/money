@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Transaction } from "../../../model/transaction";
 import Button from "@material-ui/core/Button";
 import { ExcelUtil } from "../../../util/excelUtil";
@@ -8,6 +8,8 @@ import { TransactionHelper } from "../../../util/transactionHelper";
 import { CashFlow } from "../../cashFlow/cashFlow";
 import styled from "@material-ui/core/styles/styled";
 import { SelectCategoryDialog } from "../../dialog/selectCategoryDialog";
+import { useTimeframe } from "../../context/useTimeframe";
+import { timeframeContext } from "../../context/timeframeContext";
 
 //region [[ Styles ]]
 const Timeline = styled((props) => <div {...props} />)({
@@ -19,10 +21,7 @@ const Timeline = styled((props) => <div {...props} />)({
 
 //region [[ Props ]]
 
-export interface CashflowProps {
-  timeframe: number;
-  startMonth: number;
-}
+export interface CashflowProps {}
 
 //endregion [[ Props ]]
 
@@ -34,28 +33,26 @@ export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
   const [categories, setCategories] = useState<string[]>([]);
   const [monthTimeframe, setMonthsTimeframe] = useState<number[]>([]);
 
+  const { startMonth, timeframe } = useContext(timeframeContext);
+
   const [selectCategoryDialogOpen, setSelectCategoryDialogOpen] = useState<
     boolean
   >(false);
 
   useEffect(() => {
     let months: number[] = [];
-    for (
-      let i = props.startMonth;
-      i < props.timeframe + props.startMonth;
-      i++
-    ) {
+    for (let i = startMonth; i < timeframe + startMonth; i++) {
       months.push(i + 1);
     }
     setMonthsTimeframe(months);
-  }, [props.timeframe, props.startMonth]);
+  }, [timeframe, startMonth]);
 
   const handleResult = (resp) => {
     const cats = _.uniq(
       resp.map((transaction) => TransactionHelper.getType(transaction.name))
     );
 
-    setSelectCategoryDialogOpen(true);
+    //setSelectCategoryDialogOpen(true);
     setCategories(cats);
     setTransactions(resp);
   };
@@ -63,8 +60,8 @@ export const BankAccountTimeline = ({ ...props }: CashflowProps) => {
 
   const filterTransactions = TransactionHelper.getTransactionsByTimeframe(
     transactions,
-    props.startMonth,
-    props.timeframe
+    startMonth,
+    timeframe
   );
 
   return (

@@ -33,7 +33,7 @@ export class TransactionHelper {
       (transactionName && transactionName.indexOf("כספומט") !== -1) ||
       (transactionName && transactionName.indexOf("בנקט") !== -1)
     ) {
-      return "מזומן";
+      return "כספומט";
     }
 
     if (transactionName === "פרעון הלוואה") {
@@ -63,6 +63,10 @@ export class TransactionHelper {
 
     if (transactionName === "רבית זכות") {
       return "זיכויים";
+    }
+
+    if (transactionName && transactionName.indexOf("משכורת") != -1) {
+      return "משכורת";
     }
 
     return "אחר";

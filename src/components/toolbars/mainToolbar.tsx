@@ -1,14 +1,14 @@
 import * as React from "react";
-import { withStyles } from "@material-ui/core";
+import { useContext, useEffect } from "react";
 import styled from "@material-ui/core/styles/styled";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import { useEffect, useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
+import { useTimeframe } from "../context/useTimeframe";
+import { timeframeContext } from "../context/timeframeContext";
 
 //region [[ Styles ]]
 
@@ -51,12 +51,7 @@ const LeftSection = styled("div")({
 
 //region [[ Props ]]
 
-export interface MainToolbarProps {
-  onChangeTimeframe: (value) => void;
-  onChangeStartMonth: (value) => void;
-  timeframe: number;
-  startMonth: number;
-}
+export interface MainToolbarProps {}
 
 //endregion [[ Props ]]
 
@@ -64,14 +59,17 @@ export interface MainToolbarProps {
 //endregion [[ Functions ]]
 
 export const MainToolbar = ({ ...props }: MainToolbarProps) => {
-  const [startMonth, setStartMonth] = useState(props.startMonth);
-  const [timeframe, setTimeframe] = useState(props.timeframe);
+  const {
+    timeframe,
+    startMonth,
+    setCurrentStartMonth,
+    setCurrentTimeframe,
+  } = useContext(timeframeContext);
 
   useEffect(() => {}, [startMonth, timeframe]);
 
   const onChangeTimeframe = (event) => {
-    setTimeframe(event.target.value);
-    props.onChangeTimeframe(event.target.value);
+    setCurrentTimeframe(event.target.value);
   };
 
   return (
@@ -87,8 +85,8 @@ export const MainToolbar = ({ ...props }: MainToolbarProps) => {
         <IconButton>
           <ArrowBackIosIcon
             onClick={() => {
-              if (props.startMonth + timeframe + 1 <= 12) {
-                props.onChangeStartMonth(props.startMonth + 1);
+              if (startMonth + timeframe + 1 <= 12) {
+                setCurrentStartMonth(startMonth + 1);
               }
             }}
           />
@@ -110,8 +108,8 @@ export const MainToolbar = ({ ...props }: MainToolbarProps) => {
         </Select>
         <IconButton
           onClick={() => {
-            if (props.startMonth - 1 >= 0) {
-              props.onChangeStartMonth(props.startMonth - 1);
+            if (startMonth - 1 >= 0) {
+              setCurrentStartMonth(startMonth - 1);
             }
           }}
         >

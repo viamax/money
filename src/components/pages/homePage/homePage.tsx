@@ -4,6 +4,8 @@ import styled from "@material-ui/core/styles/styled";
 import { BankAccountTimeline } from "../bankAccount/bankAccountTimeline";
 import { MainToolbar } from "../../toolbars/mainToolbar";
 import { useState } from "react";
+import { useTimeframe } from "../../context/useTimeframe";
+import { timeframeContext } from "../../context/timeframeContext";
 
 //region [[ Styles ]]
 
@@ -23,23 +25,15 @@ export interface HomePageProps {}
 //endregion [[ Functions ]]
 
 export const HomePage = ({ ...props }: HomePageProps) => {
-  const [timeframe, setTimeframe] = useState(6);
-  const [startMonth, setStartMonth] = useState(0);
+  const timeframe = useTimeframe();
 
   return (
     <HomePageView>
-      <MainToolbar
-        onChangeTimeframe={(value) => {
-          setTimeframe(value);
-        }}
-        onChangeStartMonth={(value) => {
-          setStartMonth(value);
-        }}
-        startMonth={startMonth}
-        timeframe={timeframe}
-      />
+      <timeframeContext.Provider value={timeframe}>
+        <MainToolbar />
 
-      <BankAccountTimeline timeframe={timeframe} startMonth={startMonth} />
+        <BankAccountTimeline />
+      </timeframeContext.Provider>
     </HomePageView>
   );
 };

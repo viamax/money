@@ -13,8 +13,10 @@ const CashFlowView = styled((props) => <div {...props} />)({
 
 const MonthTitle = styled((props) => <div {...props} />)({
   color: "grey",
-
+  fontFamily: "'Varela Round', sans-serif",
   textAlign: "center",
+  fontWeight: 500,
+  fontSize: "22px",
 });
 
 const MonthName = styled((props) => <div {...props} />)({
